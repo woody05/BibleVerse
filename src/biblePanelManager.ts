@@ -1,4 +1,6 @@
 import { BibleVerseManager } from "./bibleVerseManager";
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faBookOpen, faSearch } from '@fortawesome/free-solid-svg-icons';
 
 export class BiblePanelManager {
     joplin: any;
@@ -9,6 +11,8 @@ export class BiblePanelManager {
     constructor(joplin: any, bibleVerseManager: BibleVerseManager) {
         this.joplin = joplin;
         this.bibleVerseManager = bibleVerseManager;
+
+        library.add(faBookOpen, faSearch);
     }
 
     async initialize() {
@@ -16,14 +20,6 @@ export class BiblePanelManager {
 
         // CSS & JS
         await this.joplin.views.panels.addScript(this.bibleVersePanel, "style.css");
-        await this.joplin.views.panels.addScript(
-            this.bibleVersePanel,
-            "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"
-        );
-        await this.joplin.views.panels.addScript(
-            this.bibleVersePanel,
-            "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-        );
         await this.joplin.views.panels.addScript(this.bibleVersePanel, "bibleVersePanelScripts.js");
         await this.joplin.views.panels.show(this.bibleVersePanel);
     }

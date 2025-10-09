@@ -6,7 +6,7 @@
 	"name": "Bible Verses",
 	"description": "Link bible verses to bible verse references in editor",
 	"author": "Kevin Woods",
-	"homepage_url": "kevinwoods.info",
+	"homepage_url": "https://github.com/woody05/BibleVerse/wiki",
 	"repository_url": "https://github.com/woody05/BibleVerse",
 	"keywords": ["bible", "verse", "link"],
 	"categories": ["productivity", "personal knowledge management"],

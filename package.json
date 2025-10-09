@@ -1,6 +1,8 @@
 {
   "name": "joplin-plugin-bible-verse",
-  "version": "1.0.0",
+  "author": "Kevin Woods",
+  "description": "Simple joplin plugin that pulls bible verse references and then add the bible verse to side panel",
+  "version": "1.0.2",
   "scripts": {
     "dist": "webpack --env joplin-plugin-config=buildMain && webpack --env joplin-plugin-config=buildExtraScripts && webpack --env joplin-plugin-config=createArchive",
     "prepare": "npm run dist",
@@ -12,7 +14,8 @@
     "joplin-plugin"
   ],
   "files": [
-    "publish"
+    "publish",
+    "README.md"
   ],
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.23.4",

@@ -2,7 +2,7 @@
   "name": "joplin-plugin-bible-verse",
   "author": "Kevin Woods",
   "description": "Simple joplin plugin that pulls bible verse references and then add the bible verse to side panel",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "scripts": {
     "dist": "webpack --env joplin-plugin-config=buildMain && webpack --env joplin-plugin-config=buildExtraScripts && webpack --env joplin-plugin-config=createArchive",
     "prepare": "npm run dist",

@@ -19,3 +19,5 @@ This is a simple plugin that will scan your note as you type and find bible vers
 - Simply enter a verse reference into the note and the verse will be added to the plugin panel.
     - Enter as {Book} {Chapter}: {Starting Verse}:{Ending Verse}
 - Enter filter text in search box to filter bible verses linked with note.
+
+joplin-plugin

@@ -4,7 +4,7 @@
 
 This is a simple plugin that will scan your note as you type and find bible verses. Once a bible verse is found it will use https://scripture.api.bible/ API to pull the verse text. The verses will be displayed in a panel to the right.
 
-![Alt text](screen_shot.png)
+![Screen Shot](https://github.com/woody05/BibleVerse/blob/master/screen_shot.png?raw=true)
 
 ### Setup:
 

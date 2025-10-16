@@ -10,7 +10,7 @@ export class BibleApiProxy {
         // Properties are set here
     }
 
-    async initialize() {;
+    async initialize() : Promise<void> {;
         try{
             await joplin.settings.value('apiKey');
         }

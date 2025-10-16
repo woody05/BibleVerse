@@ -1,21 +1,22 @@
 import { BibleVerseManager } from "./bibleVerseManager";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faBookOpen, faSearch } from '@fortawesome/free-solid-svg-icons';
+import Joplin from "api/Joplin";
 
 export class BiblePanelManager {
-    joplin: any;
+    joplin: Joplin;
     bibleVerseManager: BibleVerseManager;
-    bibleVersePanel: any;
+    bibleVersePanel: string;
     updating: boolean
 
-    constructor(joplin: any, bibleVerseManager: BibleVerseManager) {
+    constructor(joplin: Joplin, bibleVerseManager: BibleVerseManager) {
         this.joplin = joplin;
         this.bibleVerseManager = bibleVerseManager;
 
         library.add(faBookOpen, faSearch);
     }
 
-    async initialize() {
+    async initialize() : Promise<void> {
         this.bibleVersePanel = await this.joplin.views.panels.create("bibleVersePanel");
 
         // CSS & JS
@@ -61,7 +62,7 @@ export class BiblePanelManager {
         this.updating = false;
     }
 
-    async togglePanel() {
+    async togglePanel() : Promise<void> {
         const visible = await this.joplin.views.panels.visible(this.bibleVersePanel);
         if (visible) {
             await this.joplin.views.panels.hide(this.bibleVersePanel);
@@ -70,7 +71,7 @@ export class BiblePanelManager {
         }
     }
 
-    getPanelHtml(bibleVerses: any[]) {
+    getPanelHtml(bibleVerses: any[]) : string {
         return `
         <div class="bible-verse-panel" style="padding:1em;">
             <h2><i class="fas fa-book-open"></i> Bible Verses</h2>
@@ -111,7 +112,7 @@ export class BiblePanelManager {
         `;
     }
 
-    getPanelLoadingHtml() {
+    getPanelLoadingHtml() : string {
         return `
         <div class="bible-verse-panel" style="padding:1em;">
             <h2><i class="fas fa-book-open"></i> Bible Verses</h2>

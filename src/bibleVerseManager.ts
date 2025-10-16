@@ -1,22 +1,23 @@
+import Joplin from "api/Joplin";
 import { findBookId } from "./bibleIdLookup";
 import { BibleApiProxy } from './Proxies/bibleApiProxy';
 
 export class BibleVerseManager {
-    joplin: any;
+    joplin: Joplin;
     isUpdatingVerses: boolean = false;
     bibleApiProxy: BibleApiProxy = new BibleApiProxy();
     bibleId: string = '';
     bibleVerses: any[] = [];
 
-    constructor(joplin: any) {
+    constructor(joplin: Joplin) {
         this.joplin = joplin;
     }
 
-    async initialize() {
+    async initialize() : Promise<void> {
         await this.bibleApiProxy.initialize();
     }
 
-    async getBibleVersesFromNote() {
+    async getBibleVersesFromNote() : Promise<any[]> {
         const note = await this.joplin.workspace.selectedNote();
         const rawBibleVerses = note.body.match(/(?:\b(?:[1-3]?\s?[A-Za-z]+\.?\s?\d{1,3}:\d{1,3}(?:-\d{1,3})?))/g) || [];
         let result = rawBibleVerses.map((verse) => {
@@ -39,7 +40,7 @@ export class BibleVerseManager {
         return result;
     }
 
-    async updateSavedVerses() {
+    async updateSavedVerses() : Promise<void> {
 
         if (this.isUpdatingVerses) {
             return;
@@ -64,7 +65,7 @@ export class BibleVerseManager {
         this.saveVersesToCache(cached, allVersesWithText);
     }
 
-    async mergeVerses(versesFromNote: any[], savedVerses: any[]) {
+    async mergeVerses(versesFromNote: any[], savedVerses: any[]) : Promise<any[]> {
         // Filter out saved verses that are not in the current note
         const updatedSavedVerses = savedVerses.filter((savedVerse): any =>
             versesFromNote.some(noteVerse =>
@@ -99,7 +100,7 @@ export class BibleVerseManager {
         ];
     }
 
-    async getVersesWithText(verses: any[]) {
+    async getVersesWithText(verses: any[]) : Promise<any[]> {
         let versesWithText = verses;
         const bibleId = await this.joplin.settings.value('bibleVersion');
         try {
@@ -133,7 +134,7 @@ export class BibleVerseManager {
         );
     }
 
-    async saveVersesToCache(savedVerses: any[], allVersesWithText: any[]) {
+    async saveVersesToCache(savedVerses: any[], allVersesWithText: any[]) : Promise<void> {
         try {
 
             if (await this.areVersesUnchanged(savedVerses, allVersesWithText)) {
@@ -150,7 +151,7 @@ export class BibleVerseManager {
         }
     }
 
-    async clearVersesCache() {
+    async clearVersesCache() : Promise<void> {
         this.bibleVerses = [];
     }
 }

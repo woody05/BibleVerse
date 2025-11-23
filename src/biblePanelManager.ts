@@ -1,7 +1,10 @@
 import { BibleVerseManager } from "./bibleVerseManager";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faBookOpen, faSearch } from '@fortawesome/free-solid-svg-icons';
+import Logger from "@joplin/utils/Logger";
 import Joplin from "api/Joplin";
+
+const logger = Logger.create('BibleVerse: BiblePanelManager');
 
 export class BiblePanelManager {
     joplin: Joplin;
@@ -16,53 +19,75 @@ export class BiblePanelManager {
         library.add(faBookOpen, faSearch);
     }
 
-    async initialize() : Promise<void> {
+    async initialize(): Promise<void> {
+        logger.info('Initializing BiblePanelManager...');
         this.bibleVersePanel = await this.joplin.views.panels.create("bibleVersePanel");
 
         // CSS & JS
         await this.joplin.views.panels.addScript(this.bibleVersePanel, "style.css");
         await this.joplin.views.panels.addScript(this.bibleVersePanel, "bibleVersePanelScripts.js");
         await this.joplin.views.panels.show(this.bibleVersePanel);
+
+        logger.info('BiblePanelManager Initialized...');
     }
 
-    async updatePanel() : Promise<void>{
+    async updatePanel(): Promise<void> {
 
-        if(this.updating){
+        if (this.updating) {
             console.log('Already updating...')
+            logger.warn('Already updating panel, skipping...');
             return;
         }
 
-        if (!this.bibleVersePanel) return;
+        if (!this.bibleVersePanel) {
+            logger.warn('Bible Verse Panel not initialized, skipping panel update...');
+            return
+        };
 
         this.updating = true;
 
         const note = await this.joplin.workspace.selectedNote();
         if (!note) {
             this.updating = false;
+            logger.warn('No note selected, skipping panel update...');
             return;
         }
 
         const verses = this.bibleVerseManager.bibleVerses;
 
         if (!verses || verses.length === 0) {
-            await this.joplin.views.panels.setHtml(
-                this.bibleVersePanel,
-                this.getPanelLoadingHtml()
-            );
+            try {
+                logger.info('No verses found, setting loading HTML...');
+                await this.joplin.views.panels.setHtml(
+                    this.bibleVersePanel,
+                    this.getPanelLoadingHtml()
+                );
+            }
+            catch (e) {
+                logger.error('Error setting panel loading HTML:', e);
+                console.error('Error setting panel loading HTML:', e);
+            }
         }
 
         await this.bibleVerseManager.updateSavedVerses();
         const bibleVerses = this.bibleVerseManager.bibleVerses;
 
-        await this.joplin.views.panels.setHtml(
-            this.bibleVersePanel,
-            this.getPanelHtml(bibleVerses)
-        );
+        try {
+            logger.info('Updating panel HTML with verses...');
+            await this.joplin.views.panels.setHtml(
+                this.bibleVersePanel,
+                this.getPanelHtml(bibleVerses)
+            );
+        }
+        catch (e) {
+            logger.error('Error updating panel HTML:', e);
+            console.error('Error updating panel HTML:', e);
+        }
 
         this.updating = false;
     }
 
-    async togglePanel() : Promise<void> {
+    async togglePanel(): Promise<void> {
         const visible = await this.joplin.views.panels.visible(this.bibleVersePanel);
         if (visible) {
             await this.joplin.views.panels.hide(this.bibleVersePanel);
@@ -71,7 +96,7 @@ export class BiblePanelManager {
         }
     }
 
-    getPanelHtml(bibleVerses: any[]) : string {
+    getPanelHtml(bibleVerses: any[]): string {
         return `
         <div class="bible-verse-panel" style="padding:1em;">
             <h2><i class="fas fa-book-open"></i> Bible Verses</h2>
@@ -112,7 +137,7 @@ export class BiblePanelManager {
         `;
     }
 
-    getPanelLoadingHtml() : string {
+    getPanelLoadingHtml(): string {
         return `
         <div class="bible-verse-panel" style="padding:1em;">
             <h2><i class="fas fa-book-open"></i> Bible Verses</h2>

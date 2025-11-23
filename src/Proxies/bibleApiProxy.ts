@@ -1,5 +1,8 @@
 import joplin from 'api';
 import { PassagesApi, Configuration, GetPassageRequest, BiblesApi, Bible } from '../bibleApiService';
+import Logger from '@joplin/utils/Logger';
+
+const logger = Logger.create('BibleVerse: BibleApiProxy');
 
 export class BibleApiProxy {
     configuration: Configuration;
@@ -10,11 +13,12 @@ export class BibleApiProxy {
         // Properties are set here
     }
 
-    async initialize() : Promise<void> {;
-        try{
+    async initialize(): Promise<void> {
+        ;
+        try {
             await joplin.settings.value('apiKey');
         }
-        catch(e){
+        catch (e) {
             console.error('Error fetching API key from settings:', e);
         }
         this.configuration = new Configuration({
@@ -49,15 +53,23 @@ export class BibleApiProxy {
             return data.content; // Return the passage content
         } catch (error) {
             console.error('Error fetching passage:', error);
+            logger.error('Error fetching passage:', error);
             return 'Error fetching passage.';
         }
     }
 
     async getBibleVersionAsync(bibleId: string): Promise<Bible> {
-        var response = await this.biblesClient.getBible({
-            bibleId: bibleId
-        } as GetPassageRequest);
+        try {
+            var response = await this.biblesClient.getBible({
+                bibleId: bibleId
+            } as GetPassageRequest);
 
-        return response.data;
+            return response.data;
+        }
+        catch (error) {
+            console.error('Error fetching bible version:', error);
+            logger.error('Error fetching bible version:', error);
+        }
+
     }
 }

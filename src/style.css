@@ -21,27 +21,109 @@ html, body, .joplin-plugin-root, .bibleVersePanel-root {
 
 .verse-card h3,
 h2{
-  color: #fff !important;
+  color: var(--joplin-color) !important;
 }
 
 .verse-card {
-  background-color: var(--joplin-secondary-color);
-  border: 1px solid #fff;
+  background-color: var(--joplin-primary-color);
+  border: 1px solid var(--joplin-divider-color);
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 1em;
   margin-bottom: 1em;
   font-size: 1.2em !important; /* Match the editor's font size */
-  color: #fff !important;
+  color: var(--joplin-color) !important;
 }
 
 .verse-card .v{
     vertical-align: super;
     font-size: 0.85em;
     margin-left: 0.5em;
+    margin-right: 0.2em;
+}
+
+input {
+  background-color: var(--joplin-background-color);
+  color: var(--joplin-color);
+  border: 1px solid var(--joplin-divider-color);
+  padding: 0.5em;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--joplin-divider-color);
+  box-shadow: 0 0 4px var(--joplin-primary-color);
+}
+
+input::placeholder {
+  color: var(--joplin-color);
+  opacity: 0.6;
 }
 
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--joplin-color) transparent;
+}
+
+.bible-verse-panel .input-group {
+  position: relative;
+  margin-bottom: 1em;
+}
+
+.bible-verse-panel .input-group .search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--joplin-color, #777);
+  font-size: 1rem;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Target only the input inside the panel so existing input rules remain */
+.bible-verse-panel .input-group input.with-icon,
+.bible-verse-panel .input-group input.input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5em 0.75em;
+  padding-left: 2.5rem; /* room for the icon */
+  border-radius: 4px;
+  border: 1px solid var(--joplin-divider-color);
+  background-color: var(--joplin-background-color);
+  color: var(--joplin-color);
+}
+
+/* keep focus styling consistent */
+.bible-verse-panel .input-group input.with-icon:focus {
+  outline: none;
+  border-color: var(--joplin-divider-color);
+  box-shadow: 0 0 4px var(--joplin-primary-color);
+}
+
+/* Animated circular loader used in getPanelLoadingHtml() */
+.bible-verse-panel .loader {
+  display: block;
+  width: 40px;
+  height: 40px;
+  margin: 2em auto;
+  border-radius: 50%;
+  border: 4px solid rgba(0,0,0,0.08);
+  border-top-color: var(--joplin-primary-color, #3b82f6);
+  animation: bibleverse-spin 0.95s linear infinite;
+  box-sizing: border-box;
+}
+
+/* slightly smaller variant for tighter UI (optional) */
+.bible-verse-panel .loader.small {
+  width: 28px;
+  height: 28px;
+  border-width: 3px;
+}
+
+/* keyframes */
+@keyframes bibleverse-spin {
+  to { transform: rotate(360deg); }
 }

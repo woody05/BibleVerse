@@ -99,17 +99,15 @@ export class BiblePanelManager {
     getPanelHtml(bibleVerses: any[]): string {
         return `
         <div class="bible-verse-panel" style="padding:1em;">
-            <h2><i class="fas fa-book-open"></i> Bible Verses</h2>
-
-            <div class="input-group" style="margin-bottom:1em;">
-                <i class="fas fa-search" style="color: #fff; margin-right: 1em;"></i>
+    
+            <div class="input-group">
                 <input
                     type="search"
                     id="bibleVerseSearch"
-                    class="input"
+                    class="input with-icon"
                     placeholder="Search Bible Verses..."
-                    style="flex:1;"
                 />
+                <i class="fas fa-search search-icon" aria-hidden="true"></i>
             </div>
 
             <div class="verses-container">
@@ -119,7 +117,7 @@ export class BiblePanelManager {
                         v => `
                             <div class="card verse-card">
                                 <div class="card-title">
-                                    <strong>(${v.version || "Unknown"}) ${v.book} ${v.chapter}:${v.startVerse}${v.endVerse && v.endVerse !== v.startVerse
+                                    <i class="fas fa-book-open me-2"></i> <strong>(${v.version || "Unknown"}) ${v.book} ${v.chapter}:${v.startVerse}${v.endVerse && v.endVerse !== v.startVerse
                                 ? "-" + v.endVerse
                                 : ""
                             }</strong>
@@ -140,8 +138,7 @@ export class BiblePanelManager {
     getPanelLoadingHtml(): string {
         return `
         <div class="bible-verse-panel" style="padding:1em;">
-            <h2><i class="fas fa-book-open"></i> Bible Verses</h2>
-            <h4>Loading Verses...</h4>
+            <span class="loader"></span>
         </div>
     `;
     }

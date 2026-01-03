@@ -2,8 +2,6 @@ import Joplin from "api/Joplin";
 import { findBookId } from "./bibleIdLookup";
 import { BibleApiProxy } from './Proxies/bibleApiProxy';
 import Logger from "@joplin/utils/Logger";
-import { log } from "console";
-import { on } from "events";
 
 const logger = Logger.create('BibleVerse: BibleVerseManager');
 
@@ -64,7 +62,7 @@ export class BibleVerseManager {
             return;
         }
 
-        const note = await this.joplin.workspace.selectedNote();
+        const  note = await this.joplin.workspace.selectedNote();
 
         if (!note) {
             this.isUpdatingVerses = false;
